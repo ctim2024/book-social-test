@@ -1,0 +1,40 @@
+spring:
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3308/book_social_network
+    username: root
+    password: belgecem1980
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true
+    database: mysql
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+  mail:
+    host: localhost
+    port: 1025
+    username: boubaker
+    password: ctim2020
+    properties:
+      mail:
+        smtp:
+          trust: "*"
+        auth: true
+        starttls:
+          enabled: true
+        connectiontimeout: 5000
+        timeout: 3000
+        writetimeout: 5000
+
+application:
+    security:
+         jwt:
+            secret-key: CLzEofKLqKIQP4UsXboWH47yi24/UJOBLetLqMVWweTy+zLRLVaTgrMCXUjQBnUw
+            expiration: 8640000
+    mailing:
+      frontend:
+         activate-url: http://localhost:4200/activate-account
+server:
+  port: 8088         

@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  mysql:
+    container_name: mysql-db-bsn
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: ctim2020  # Root user password
+      MYSQL_USER: book               # Additional MySQL user
+      MYSQL_PASSWORD: belgecem1980           # Password for the additional user
+      MYSQL_DATABASE: book_social_network  # Default database to be created
+    volumes:
+      - mysql:/var/lib/mysql             # Persisting MySQL data
+    ports:
+      - "3308:3306"                      # Mapping port 3306 for MySQL
+    networks:
+      - spring-demo
+    restart: unless-stopped
+  mail-dev:
+    container_name: mail-dev-bsn
+    image: maildev/maildev
+    ports:
+      - 1080:1080
+      - 1025:1025
+networks:
+  spring-demo:
+    driver: bridge
+
+volumes: 
+  mysql:
+    driver: local
