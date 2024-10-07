@@ -1,5 +1,7 @@
 package com.boubaker.book.book;
 
+import static com.boubaker.book.book.BookSpecification.withOwnerId;
+
 import java.util.List;
 
 import org.springframework.data.domain.Page;
@@ -29,30 +31,48 @@ public class BookService {
         return bookRepository.save(book).getId();
     }
 
-        public BookResponse findById(Integer bookId) {
+    public BookResponse findById(Integer bookId) {
         return bookRepository.findById(bookId)
                 .map(bookMapper::toBookResponse)
                 .orElseThrow(() -> new EntityNotFoundException("No book found with ID:: " + bookId));
     }
 
-        public PageResponse<BookResponse> findAllBooks(int page, int size, Authentication connectedUser) {
-           
-            User user = ((User) connectedUser.getPrincipal());
-            Pageable pageable = PageRequest.of(page, size, Sort.by("createdDate").descending());
-            Page<Book> books = bookRepository.findAllDisplayableBooks(pageable, user.getId());
-            List<BookResponse> bookResponse = books.stream()
-                                              .map(bookMapper::toBookResponse)
-                                              .toList();  
+    public PageResponse<BookResponse> findAllBooks(int page, int size, Authentication connectedUser) {
 
-            return new PageResponse<>(
+        User user = ((User) connectedUser.getPrincipal());
+        Pageable pageable = PageRequest.of(page, size, Sort.by("createdDate").descending());
+        Page<Book> books = bookRepository.findAllDisplayableBooks(pageable, user.getId());
+        List<BookResponse> bookResponse = books.stream()
+                .map(bookMapper::toBookResponse)
+                .toList();
+
+        return new PageResponse<>(
                 bookResponse,
                 books.getNumber(),
                 books.getSize(),
                 books.getTotalElements(),
                 books.getTotalPages(),
                 books.isFirst(),
-                books.isLast()
-            );
-        }
+                books.isLast());
+    }
 
+    public PageResponse<BookResponse> findAllBooksByOwner(int page, int size, Authentication connectedUser) {
+
+        User user = ((User) connectedUser.getPrincipal());
+        Pageable pageable = PageRequest.of(page, size, Sort.by("createdDate").descending());
+        Page<Book> books = bookRepository.findAll(withOwnerId(user.getId()), pageable);
+
+        List<BookResponse> bookResponse = books.stream()
+                .map(bookMapper::toBookResponse)
+                .toList();
+
+        return new PageResponse<>(
+                bookResponse,
+                books.getNumber(),
+                books.getSize(),
+                books.getTotalElements(),
+                books.getTotalPages(),
+                books.isFirst(),
+                books.isLast());
+    }
 }
