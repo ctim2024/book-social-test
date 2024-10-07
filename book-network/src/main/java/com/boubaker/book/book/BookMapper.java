@@ -1,7 +1,5 @@
 package com.boubaker.book.book;
 
-import org.apache.tomcat.util.http.fileupload.FileUtils;
-
 public class BookMapper {
 
     public Book toBook(BookRequest request) {
@@ -26,8 +24,8 @@ public class BookMapper {
                 .rate(book.getRate())
                 .archived(book.isArchived())
                 .shareable(book.isShareable())
-                // .owner(book.getOwner().fullName())
-                .cover(FileUtils.readFileFromLocation(book.getBookCover()))
+                .owner(book.getOwner().getFullName())
+                //.cover(FileUtils.readFileFromLocation(book.getBookCover()))
                 .build();
     }
 
