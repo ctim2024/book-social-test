@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.boubaker.book.common.PageResponse;
+import com.boubaker.book.history.BorrowedBookResponse;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -58,4 +59,14 @@ public class BookController {
 
       return ResponseEntity.ok(service.findAllBooksByOwner(page,size,connectedUser));
     }
+    @GetMapping("/borrowed")
+    public ResponseEntity<PageResponse<BorrowedBookResponse>> findAllBorrowedBooks (
+        @RequestParam(name = "page", defaultValue = "0", required = false) int page,
+        @RequestParam(name = "size", defaultValue = "10", required = false) int size,
+        Authentication connectedUser
+    ) {
+
+      return ResponseEntity.ok(service.findAllBorrowedBooks(page,size,connectedUser));
+    }
+
 }

@@ -12,6 +12,10 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import com.boubaker.book.common.PageResponse;
+import com.boubaker.book.history.BookTransactionHistory;
+import com.boubaker.book.history.BookTransactionHistoryRepository;
+import com.boubaker.book.history.BookTransactionMapper;
+import com.boubaker.book.history.BorrowedBookResponse;
 import com.boubaker.book.user.User;
 
 import jakarta.persistence.EntityNotFoundException;
@@ -23,6 +27,8 @@ public class BookService {
 
     private final BookRepository bookRepository;
     private final BookMapper bookMapper;
+    private final BookTransactionMapper bookTransactionMapper;
+    private final BookTransactionHistoryRepository transactionHistoryRepository;
 
     public Integer save(BookRequest request, Authentication connectedUser) {
         User user = ((User) connectedUser.getPrincipal());
@@ -74,5 +80,26 @@ public class BookService {
                 books.getTotalPages(),
                 books.isFirst(),
                 books.isLast());
+    }
+
+    public PageResponse<BorrowedBookResponse> findAllBorrowedBooks(int page, int size, Authentication connectedUser) {
+
+        
+        User user = ((User) connectedUser.getPrincipal());
+        Pageable pageable = PageRequest.of(page, size, Sort.by("createdDate").descending());
+        Page<BookTransactionHistory> allBorrowedBooks = transactionHistoryRepository.findAllBorrowedBooks(user.getId(),pageable);
+        List<BorrowedBookResponse> borrowedBookResponse = allBorrowedBooks.stream()
+                                                    .map(bookTransactionMapper::toBorrowedBookResponse)
+                                                    .toList();
+
+
+       return new PageResponse<>(
+        borrowedBookResponse,
+        allBorrowedBooks.getNumber(),
+        allBorrowedBooks.getSize(),
+        allBorrowedBooks.getTotalElements(),
+        allBorrowedBooks.getTotalPages(),
+        allBorrowedBooks.isFirst(),
+        allBorrowedBooks.isLast());
     }
 }
