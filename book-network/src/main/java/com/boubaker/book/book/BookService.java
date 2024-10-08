@@ -3,6 +3,8 @@ package com.boubaker.book.book;
 import static com.boubaker.book.book.BookSpecification.withOwnerId;
 
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -121,5 +123,20 @@ public class BookService {
         allBorrowedBooks.getTotalPages(),
         allBorrowedBooks.isFirst(),
         allBorrowedBooks.isLast());
+    }
+
+    public Integer updateShareableStatus(Integer bookId, Authentication connectedUser) {
+
+        Book book = bookRepository.findById(bookId)
+                    .orElseThrow(()-> new EntityNotFoundException("No book founded with ID :: " +bookId));
+
+        User user = ((User) connectedUser.getPrincipal()); 
+        if(!Objects.equals(book.getOwner().getId(), bookId)){
+            throw new OperationNotPermittedException("You cannot update shareable status");
+        }      
+        
+        book.setShareable(!book.isShareable());
+        bookRepository.save(book);
+       return bookId;
     }
 }

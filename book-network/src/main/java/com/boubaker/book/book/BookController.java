@@ -3,6 +3,7 @@ package com.boubaker.book.book;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -77,6 +78,15 @@ public class BookController {
     ) {
 
       return ResponseEntity.ok(service.findAllReturnedBooks(page,size,connectedUser));
+    }
+
+    @PatchMapping("/shareable/{book_id}")
+    public ResponseEntity<Integer> updateShareableStatus(
+        @PathVariable("book_id") Integer bookId,
+        Authentication connectedUser     
+    ){
+ 
+             return ResponseEntity.ok(service.updateShareableStatus(bookId, connectedUser));
     }
 
 }

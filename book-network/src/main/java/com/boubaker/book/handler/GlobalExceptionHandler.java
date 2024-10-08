@@ -3,7 +3,6 @@ package com.boubaker.book.handler;
 import static com.boubaker.book.handler.BusinessErrorCodes.ACCOUNT_DISABLED;
 import static com.boubaker.book.handler.BusinessErrorCodes.ACCOUNT_LOCKED;
 import static com.boubaker.book.handler.BusinessErrorCodes.BAD_CREDENTIALS;
-import static com.boubaker.book.handler.BusinessErrorCodes.ACCOUNT_LOCKED;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 import static org.springframework.http.HttpStatus.UNAUTHORIZED;
@@ -19,6 +18,8 @@ import org.springframework.security.authentication.LockedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import com.boubaker.book.exception.OperationNotPermittedException;
 
 import jakarta.mail.MessagingException;
 
@@ -93,6 +94,16 @@ public class GlobalExceptionHandler {
                 );
     }
 
+    @ExceptionHandler(OperationNotPermittedException.class)
+    public ResponseEntity<ExceptionResponse> handleException(OperationNotPermittedException exp) {
+        return ResponseEntity
+                .status(BAD_REQUEST)
+                .body(
+                        ExceptionResponse.builder()
+                                .error(exp.getMessage())
+                                .build()
+                );
+    }
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ExceptionResponse> handleException(Exception exp) {
         exp.printStackTrace();
