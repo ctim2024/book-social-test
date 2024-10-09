@@ -1,5 +1,7 @@
 package com.boubaker.book.book;
 
+import com.boubaker.book.file.FileUtils;
+
 public class BookMapper {
 
     public Book toBook(BookRequest request) {
@@ -25,7 +27,7 @@ public class BookMapper {
                 .archived(book.isArchived())
                 .shareable(book.isShareable())
                 .owner(book.getOwner().getFullName())
-                //.cover(FileUtils.readFileFromLocation(book.getBookCover()))
+                .cover(FileUtils.readFileFromLocation(book.getBookCover()))
                 .build();
     }
 
