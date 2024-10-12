@@ -1,9 +1,11 @@
 package com.boubaker.book.history;
 
+import org.springframework.stereotype.Service;
+
 import com.boubaker.book.book.Book;
 import com.boubaker.book.book.BookRequest;
-import com.boubaker.book.book.BookResponse;
 
+@Service
 public class BookTransactionMapper {
 
     public Book toBook(BookRequest request) {

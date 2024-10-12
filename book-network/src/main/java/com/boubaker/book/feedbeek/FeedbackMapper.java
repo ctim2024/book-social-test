@@ -2,8 +2,11 @@ package com.boubaker.book.feedbeek;
 
 import java.util.Objects;
 
+import org.springframework.stereotype.Service;
+
 import com.boubaker.book.book.Book;
 
+@Service
 public class FeedbackMapper {
 
 

@@ -1,7 +1,10 @@
 package com.boubaker.book.book;
 
+import org.springframework.stereotype.Service;
+
 import com.boubaker.book.file.FileUtils;
 
+@Service
 public class BookMapper {
 
     public Book toBook(BookRequest request) {
