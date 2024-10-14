@@ -34,7 +34,7 @@ public class FeedBackService {
                     .orElseThrow(() -> new EntityNotFoundException("No book found with ID:: " + request.bookId()));
 
        if (book.isArchived() || !book.isShareable()) {
-                throw new OperationNotPermittedException("You cannot give a feedback for and archived or not shareable book");
+                throw new OperationNotPermittedException("You cannot give a feedback for an archived or not shareable book");
             }
     
             User user = ((User) connectedUser.getPrincipal());
