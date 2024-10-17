@@ -1,0 +1,32 @@
+# See https://docs.github.com/get-started/getting-started-with-git/ignoring-files for more about ignoring files.
+
+# Compiled output
+/book-network-ui/dist
+/book-network-ui/tmp
+/book-network-ui/out-tsc
+/book-network-ui/bazel-out
+
+# Node
+/book-network-ui/node_modules
+/book-network-uinpm-debug.log
+/book-network-uiyarn-error.log
+
+
+# Visual Studio Code
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.history/*
+
+# Miscellaneous
+/book-network-ui/.angular/cache
+/book-network-ui.sass-cache/
+/book-network-ui/connect.lock
+/book-network-ui/coverage
+/book-network-ui/libpeerconnection.log
+/book-network-uitestem.log
+/book-network-ui/typings
+
+
