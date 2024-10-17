@@ -2,7 +2,7 @@ spring:
   datasource:
     url: jdbc:mysql://127.0.0.1:3308/book_social_network
     username: root
-    password: belgecem1980
+    password: ctim2020
   jpa:
     hibernate:
       ddl-auto: update
