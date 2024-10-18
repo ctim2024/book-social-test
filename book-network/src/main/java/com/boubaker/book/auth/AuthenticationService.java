@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import com.boubaker.book.email.EmailService;
 import com.boubaker.book.email.EmailTemplateName;
+import com.boubaker.book.exception.UniqueKeyException;
 import com.boubaker.book.role.RoleRepository;
 import com.boubaker.book.security.JwtService;
 import com.boubaker.book.user.TokenRepository;
@@ -21,7 +23,6 @@ import com.boubaker.book.user.User;
 import com.boubaker.book.user.UserRepository;
 
 import jakarta.mail.MessagingException;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import com.boubaker.book.user.Token;
 @Service
@@ -51,7 +52,14 @@ public class AuthenticationService {
                 .enabled(false)
                 .roles(List.of(userRole))
                 .build();
-        userRepository.save(user);
+
+                try{
+                userRepository.save(user); 
+                }catch(DataIntegrityViolationException ex){
+                        
+                throw new UniqueKeyException("Email already exist or cannot be null");
+                }
+        
         sendValidationEmail(user);
     }
 
