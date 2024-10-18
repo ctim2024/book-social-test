@@ -36,7 +36,7 @@ export class LoginComponent {
           this.errorMsg.push(err.error.errorMsg);
         }
       }
-    });;
+    });
   };
   register() {
     this.router.navigate(['register'])
