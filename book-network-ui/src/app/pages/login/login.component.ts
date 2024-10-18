@@ -4,6 +4,7 @@ import { NgFor, NgIf } from '@angular/common';
 import {FormsModule} from '@angular/forms';
 import { AuthenticationService } from '../../services/services';
 import { Router } from '@angular/router';
+import { TokenService } from '../../services/token/token.service';
 @Component({
   selector: 'app-login',
   standalone: true,
@@ -18,14 +19,16 @@ export class LoginComponent {
 
   constructor(
              private router:Router,
-             private authService:AuthenticationService
+             private authService:AuthenticationService,
+             private tokenService: TokenService
             ){}
 
   login() {
   
+    this.errorMsg = [];
     this.authService.authenticate({body:this.authRequest}).subscribe({
       next: (res) => {
-        //this.tokenService.token = res.token as string;
+        this.tokenService.token = res.token as string;
         this.router.navigate(['books']);
       },
       error: (err) => {
@@ -33,7 +36,7 @@ export class LoginComponent {
         if (err.error.validationErrors) {
           this.errorMsg = err.error.validationErrors;
         } else {
-          this.errorMsg.push(err.error.errorMsg);
+          this.errorMsg.push(err.error.error);
         }
       }
     });
