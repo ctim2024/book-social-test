@@ -7,3 +7,14 @@
     width: 800px !important;
     margin-top: 15%;
   }
+
+ ::-webkit-scrollbar {
+    width: 10px; 
+  }  
+  /* Customize the thumb (draggable part) */
+::-webkit-scrollbar-thumb {
+  background-color: #007bff; /* Color of the thumb */
+  border-radius: 5px; /* Rounded corners */
+  border: 2px solid #ffffff; /* Padding around the thumb */
+  
+}
