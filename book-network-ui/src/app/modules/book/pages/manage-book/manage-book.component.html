@@ -44,6 +44,14 @@
                   </label>
                 </div>
               </div>
+              <div class="d-flex justify-content-end gap-2 col-12">
+                <button (click)="saveBook()" type="submit" class="btn btn-outline-primary">
+                  <i class="fas fa-save"></i>&nbsp;Save
+                </button>
+                <a routerLink="/books/my-books" type="submit" class="btn btn-link btn text-danger">
+                  <i class="fas fa-times"></i>&nbsp;Cancel
+                </a>
+              </div>
          </form>
       </div>
     </div>

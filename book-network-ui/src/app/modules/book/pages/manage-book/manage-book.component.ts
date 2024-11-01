@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { BookRequest } from '../../../../services/models';
+import { BookService } from '../../../../services/services';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-manage-book',
@@ -7,6 +9,7 @@ import { BookRequest } from '../../../../services/models';
   styleUrl: './manage-book.component.scss'
 })
 export class ManageBookComponent {
+
 
 errorMsg: Array<string> = [];
 selectedPicture: string | undefined;
@@ -17,6 +20,10 @@ bookRequest: BookRequest = {
   synopsis: '',
   title: ''
 };
+
+constructor(private bookService:BookService, private router:Router){
+
+}
 
 onFileSelected(event: any) {
   this.selectedBookCover = event.target.files[0];
@@ -31,5 +38,27 @@ onFileSelected(event: any) {
     reader.readAsDataURL(this.selectedBookCover);
   }
   }
+  saveBook() {
+   
+    this.bookService.saveBook({
+      body:this.bookRequest
+    }).subscribe({
+      next:(bookId:number)=>{
+        this.bookService.uploadBookCoverPicture({
+          'book-id':bookId,
+          body:{
+            file: this.selectedBookCover
+          }
+        }).subscribe({
+          next: ()=> {
+               this.router.navigate(['/books/my-books']);
+          }
+        })
+      },
+      error:(err)=>{
 
+        this.errorMsg = err.error.validationErrors;
+      }
+    })
+    }
 }
