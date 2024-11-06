@@ -69,13 +69,14 @@ export class MyBooksComponent implements OnInit {
   }
 
   editBook(book: BookResponse) {
-   
+
+    this.router.navigate(['books','manage',book.id])
   }
   shareBook(book: BookResponse) {
-    
+
   }
   archiveBook(book: BookResponse) {
-    
+
   }
 
 }
