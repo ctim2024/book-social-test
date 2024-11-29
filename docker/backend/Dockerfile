@@ -16,6 +16,6 @@ COPY --from=build /build/target/book-network-*.jar /app/
 
 ENV ACTIVE_PROFILE=${PROFILE}
 ENV JAR_VERSION=${APP_VERSION}
-ENV DB_URL=jdbc:mysql://mysql-db-bsn:3308/book_social_network
+ENV DB_URL=jdbc:mysql://mysql-db-bsn:3306/book_social_network
 
 CMD java -jar -Dspring.profiles.active=${ACTIVE_PROFILE} -Dspring.datasource.url=${DB_URL}  book-network-${JAR_VERSION}.jar
