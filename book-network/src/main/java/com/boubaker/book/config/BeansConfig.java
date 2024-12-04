@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.AuditorAware;
@@ -26,6 +27,8 @@ import lombok.RequiredArgsConstructor;
 public class BeansConfig {
 
 private final UserDetailsService userDetailsService;
+@Value("${application.cors.origins}")
+private List<String> allowedOrigins;
 
     @Bean
     AuthenticationProvider authenticationProvider() {
@@ -61,20 +64,9 @@ private final UserDetailsService userDetailsService;
         final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         final CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true);
-        config.setAllowedOrigins(List.of("http://localhost:4200","http://localhost:8080","http://localhost:8085"));
-        config.setAllowedHeaders(Arrays.asList(
-                HttpHeaders.ORIGIN,
-                HttpHeaders.CONTENT_TYPE,
-                HttpHeaders.ACCEPT,
-                HttpHeaders.AUTHORIZATION
-        ));
-        config.setAllowedMethods(Arrays.asList(
-           "GET",
-                "POST",
-                "DELETE",
-                "PUT",
-                "PATCH"
-        ));
+        config.setAllowedOrigins(allowedOrigins);
+        config.setAllowedHeaders(Arrays.asList("*"));
+        config.setAllowedMethods(Arrays.asList("*"));
         source.registerCorsConfiguration("/**", config);
         return new CorsFilter(source);
 

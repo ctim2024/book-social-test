@@ -13,10 +13,10 @@ spring:
     database: mysql
     database-platform: org.hibernate.dialect.MySQL8Dialect
   mail:
-    host: smtp.gmail.com
+    host: ${EMAIL_HOSTNAME}
     port: 465
-    username: 
-    password: 
+    username: ${EMAIL_USER_NAME}
+    password: ${EMAIL_PASSWORD}
     properties:
       mail:
         smtp: 
@@ -36,6 +36,8 @@ application:
     mailing:
       frontend:
          activate-url: http://localhost:8085/activate-account
+    cors:
+      origins: http://localhost:4200,http://localhost:8080,http://localhost:8085     
     file:
       upload:
          photos-upload-path: ./uploads     
