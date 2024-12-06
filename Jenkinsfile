@@ -3,9 +3,9 @@ pipeline {
 
     environment {
         DOCKERHUB_USERNAME = credentials('dockerhub-username') // DockerHub username stored in Jenkins credentials
-        DOCKERHUB_TOKEN = credentials('dockerhub-token')       // DockerHub token stored in Jenkins credentials
-        VPS_USERNAME = credentials('vps-username')            // VPS username stored in Jenkins credentials
-        VPS_IP = credentials('vps-ip')                        // VPS IP address stored in Jenkins credentials
+       // DOCKERHUB_TOKEN = credentials('dockerhub-token')       // DockerHub token stored in Jenkins credentials
+      //  VPS_USERNAME = credentials('vps-username')            // VPS username stored in Jenkins credentials
+      //  VPS_IP = credentials('vps-ip')                        // VPS IP address stored in Jenkins credentials
     }
 
     stages {
@@ -30,9 +30,12 @@ pipeline {
         stage('Login to DockerHub') {
             steps {
                 script {
-                    sh """
+                   withCredentials([usernamePassword(credentialsId: 'dockerhub-username', usernameVariable: 'DOCKERHUB_USERNAME', passwordVariable: 'DOCKERHUB_TOKEN')]) {
+                    sh '''
                         echo "$DOCKERHUB_TOKEN" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
-                    """
+                    '''
+}
+
                 }
             }
         }
@@ -55,9 +58,9 @@ pipeline {
             steps {
                 script {
                     sh """
-                        ssh ${VPS_USERNAME}@${VPS_IP} "mkdir -p ci-cd"
-                        scp -oStrictHostKeyChecking=no docker-compose.yml ${VPS_USERNAME}@${VPS_IP}:ci-cd/docker-compose.yml
-                        ssh ${VPS_USERNAME}@${VPS_IP} <<EOF
+                        ssh ctim@$10.76.100.239 "mkdir -p ci-cd"
+                        scp -oStrictHostKeyChecking=no docker-compose.yml ctim@$10.76.100.239:ci-cd/docker-compose.yml
+                        ssh ctim@$10.76.100.239 <<EOF
                         cd ci-cd
                         docker compose -f docker-compose.yml pull -q
                         docker compose -f docker-compose.yml up -d
