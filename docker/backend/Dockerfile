@@ -19,7 +19,7 @@ ENV JAR_VERSION=${APP_VERSION}
 ENV DB_URL=jdbc:mysql://mysql-db-bsn:3306/book_social_network
 
 ENV EMAIL_HOSTNAME=smtp.gmail.com
-ENV EMAIL_USER_NAME=missing_user_name
-ENV EMAIL_PASSWORD=missing_password
+ENV EMAIL_USER_NAME=belgecemjrad2018@gmail.com
+ENV EMAIL_PASSWORD="avhn rgmu lnff kgea"
 
 CMD java -jar -Dspring.profiles.active=${ACTIVE_PROFILE} -Dspring.datasource.url=${DB_URL}  book-network-${JAR_VERSION}.jar
