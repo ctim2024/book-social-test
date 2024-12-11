@@ -1,9 +1,15 @@
 pipeline {
-   // agent { label 'agent1' }
-   agent any
+   agent { label 'agent1' }
+   //agent any
     environment {
 
-        VERSION = '1.0.2'
+        VERSION = sh(
+                        script: '''
+                        cd book-network
+                        mvn -Dexec.executable="echo" -Dexec.args="${project.version}" --non-recursive exec:exec
+                        ''',
+                        returnStdout: true
+                    ).trim()
       //  AGENT1_CREDENTIALS = credentials('ssh')
     }
     tools {
@@ -68,13 +74,13 @@ pipeline {
                 //   cd book-network
                 //   mvn -Dexec.executable='echo' -Dexec.args='${project.version}' --non-recursive exec:exec
                 //   '''
-                  env.VERSION = sh(
-                        script: '''
-                        cd book-network
-                        mvn -Dexec.executable="echo" -Dexec.args="${project.version}" --non-recursive exec:exec
-                        ''',
-                        returnStdout: true
-                    ).trim()
+                  // env.VERSION = sh(
+                  //       script: '''
+                  //       cd book-network
+                  //       mvn -Dexec.executable="echo" -Dexec.args="${project.version}" --non-recursive exec:exec
+                  //       ''',
+                  //       returnStdout: true
+                  //   ).trim()
                   echo "Captured version: ${env.VERSION}"
                 }
         }
