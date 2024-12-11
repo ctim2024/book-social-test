@@ -20,10 +20,8 @@ pipeline {
              // echo "the version is : ${NEW_VERSION}"
               sh '''
               cd book-network
-              pwd
+              mvn clean compile
               '''
-             
-            //  sh 'mvn clean compile'
           }
           }
      stage('unit-tests'){
