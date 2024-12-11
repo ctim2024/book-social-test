@@ -40,7 +40,10 @@ pipeline {
         stage('build') {
           steps {
                echo 'building the application....'
-             //  sh 'mvn clean package  -DskipTests'
+             sh '''
+             cd book-network
+             mvn clean package  -DskipTests
+             '''
             }
         }
            stage('build-image') {
