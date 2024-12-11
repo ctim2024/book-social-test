@@ -68,7 +68,7 @@ pipeline {
                 //   cd book-network
                 //   mvn -Dexec.executable='echo' -Dexec.args='${project.version}' --non-recursive exec:exec
                 //   '''
-                  $VERSION = sh(
+                  env.VERSION = sh(
                         script: '''
                         cd book-network
                         mvn -Dexec.executable="echo" -Dexec.args="${project.version}" --non-recursive exec:exec
