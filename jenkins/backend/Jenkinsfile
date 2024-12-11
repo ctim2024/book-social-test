@@ -4,7 +4,7 @@ pipeline {
     environment {
 
         VERSION = '1.0.2'
-      //  AGENT1_CREDENTIALS = credentials('ssh')
+        DOCKERHUB_CREDENTIALS = credentials('boubaker1982-dockerhub')
     }
     tools {
       maven 'my_maven'
@@ -60,7 +60,7 @@ pipeline {
              '''
             }
         }
-       stage('build-image') {
+       stage('get project version') {
           agent { label 'agent1' }
           steps {
               echo 'Building image for the application....'
@@ -79,6 +79,13 @@ pipeline {
               }
           }
 }
+  
+   stage('connect to docker hub'){
+
+    steps{
+        sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+    }
+   }
            stage('deploy') {
 
               steps {
