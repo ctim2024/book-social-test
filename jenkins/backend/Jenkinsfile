@@ -83,6 +83,18 @@ pipeline {
                
             }
         }
+        
+        stage('build and push image') {
+            //agent {label 'agent1'}
+            steps {
+                echo 'build and push image......'
+                sh '''
+                cd book-network
+                docker build -t docker build -t bsn/bsn:1.0.4 -f ../docker/backend/Dockerfile .
+                '''
+               
+            }
+        }
         stage('deploy') {
             steps {
                 echo 'deploying the application....'
