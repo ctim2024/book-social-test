@@ -1,7 +1,7 @@
 /* groovylint-disable CompileStatic, GStringExpressionWithinString, NoDef */
 pipeline {
-    //agent { label 'agent1' }
-    agent any
+    agent { label 'agent1' }
+    //agent any
     environment {
         VERSION = '1.0.2'
         DOCKERHUB_CREDENTIALS = credentials('boubaker1982-dockerhub')
@@ -12,7 +12,7 @@ pipeline {
     }
     stages {
         stage('compile') {
-            agent { label 'agent1' }
+            //agent { label 'agent1' }
             when {
                 expression {
                     env.BRANCH_NAME == 'master' || '1' == '2'
@@ -29,7 +29,7 @@ pipeline {
             }
         }
         stage('unit-tests') {
-            agent { label 'agent1' }
+            //agent { label 'agent1' }
             when {
                 expression {
                     env.BRANCH_NAME == 'master' || '1' == '2'
@@ -41,7 +41,7 @@ pipeline {
             }
         }
         stage('build') {
-            agent { label 'agent1' }
+            //agent { label 'agent1' }
             when {
                 expression {
                     env.BRANCH_NAME == 'master' || '1' == '2'
@@ -56,7 +56,7 @@ pipeline {
             }
         }
         stage('get project version') {
-            agent { label 'agent1' }
+            //agent { label 'agent1' }
             steps {
                 echo 'Building image for the application....'
                 script {
@@ -76,7 +76,7 @@ pipeline {
         }
 
         stage('connect to docker hub') {
-            agent {label 'agent1'}
+            //agent {label 'agent1'}
             steps {
                 echo 'connect to dockerhub......'
                 sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
