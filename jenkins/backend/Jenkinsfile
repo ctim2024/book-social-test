@@ -49,9 +49,10 @@ pipeline {
            stage('build-image') {
               steps {
                    echo 'building image the application....'
-                  // sh '''
-                   //mvn -Dexec.executable='echo' -Dexec.args='${project.version}' --non-recursive exec:exec
-                   //'''
+                 sh '''
+                  cd book-network
+                  mvn -Dexec.executable='echo' -Dexec.args='${project.version}' --non-recursive exec:exec
+                  '''
                 }
         }
            stage('deploy') {
