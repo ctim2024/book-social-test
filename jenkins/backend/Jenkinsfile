@@ -78,8 +78,9 @@ pipeline {
         stage('connect to docker hub') {
             agent {label 'agent1'}
             steps {
+                echo 'connect to dockerhub......'
                 sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
-                sh 'connect to dockerhub......'
+               
             }
         }
         stage('deploy') {
