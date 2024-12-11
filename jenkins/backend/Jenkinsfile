@@ -69,7 +69,7 @@ pipeline {
                   def projectVersion = sh(
                       script: '''
                       cd book-network
-                      mvn -Dexec.executable="echo" -Dexec.args="${project.version}" --non-recursive exec:exec
+                      mvn -Dexec.executable="echo" -Dexec.args="\\${project.version}" --non-recursive exec:exec
                       ''',
                       returnStdout: true
                   ).trim()
