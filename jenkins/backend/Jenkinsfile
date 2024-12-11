@@ -90,7 +90,7 @@ pipeline {
                 echo 'build and push image......'
                 sh '''
                 cd book-network
-                docker build -t bsn/bsn:1.0.4 -f ../docker/backend/Dockerfile .
+                docker build -t bsn/bsn:${VERSION} -f ../docker/backend/Dockerfile .
                 '''
                
             }
@@ -104,6 +104,7 @@ pipeline {
     post {
         always {
             echo 'stages are done....'
+            sh 'docker logout'
         }
         success {
             echo 'stages are done successfully....'
