@@ -3,7 +3,7 @@ pipeline {
    agent any
     environment {
 
-        NEW_VERSION = '1.0.2'
+        VERSION = '1.0.2'
       //  AGENT1_CREDENTIALS = credentials('ssh')
     }
     tools {
@@ -12,7 +12,13 @@ pipeline {
     }
     stages {
       stage('compile'){
-          agent { label 'agent1' }         
+          agent { label 'agent1' }   
+           when {
+                expression {
+                     
+                     env.BRANCH_NAME == 'master' || '1' == '2'
+                }
+             }         
           steps {
               
               echo 'compiling the application....'
@@ -40,6 +46,12 @@ pipeline {
                   } 
         stage('build') {
           agent { label 'agent1' }
+           when {
+                expression {
+                     
+                     env.BRANCH_NAME == 'master' || '1' == '2'
+                }
+             }   
           steps {
                echo 'building the application....'
              sh '''
@@ -52,10 +64,18 @@ pipeline {
                agent { label 'agent1' }
               steps {
                    echo 'building image the application....'
-                 sh '''
-                  cd book-network
-                  mvn -Dexec.executable='echo' -Dexec.args='${project.version}' --non-recursive exec:exec
-                  '''
+                //  sh '''
+                //   cd book-network
+                //   mvn -Dexec.executable='echo' -Dexec.args='${project.version}' --non-recursive exec:exec
+                //   '''
+                  $VERSION = sh(
+                        script: '''
+                        cd book-network
+                        mvn -Dexec.executable="echo" -Dexec.args="${project.version}" --non-recursive exec:exec
+                        ''',
+                        returnStdout: true
+                    ).trim()
+                  echo "Captured version: ${env.VERSION}"
                 }
         }
            stage('deploy') {
