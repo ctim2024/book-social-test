@@ -18,8 +18,11 @@ pipeline {
               echo 'compiling the application....'
               //sh 'env'  // display jenkins environment variables
              // echo "the version is : ${NEW_VERSION}"
-              sh 'cd /book-network'
-              sh 'pwd'
+              sh '''
+              cd book-network
+              pwd
+              '''
+             
             //  sh 'mvn clean compile'
           }
           }
