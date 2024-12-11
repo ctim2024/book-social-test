@@ -92,6 +92,7 @@ pipeline {
     post {
         always {
             echo 'stages are done....'
+            sh 'docker logout'
         }
         success {
             echo 'stages are done successfully....'
