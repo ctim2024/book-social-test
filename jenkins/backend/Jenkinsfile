@@ -11,6 +11,7 @@ pipeline {
         jdk 'jdk.17'
     }
     stages {
+        stage('compile and test'){
         parallel {
         stage('compile') {
             //agent { label 'agent1' }
@@ -28,6 +29,7 @@ pipeline {
               mvn clean compile
               '''
             }
+        
         }
         stage('unit-tests') {
             //agent { label 'agent1' }
@@ -40,6 +42,7 @@ pipeline {
                 echo 'testing the application....'
                 sh 'mvn clean test'
             }
+        }
         }
         }
         stage('build') {
