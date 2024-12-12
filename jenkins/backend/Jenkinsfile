@@ -32,7 +32,7 @@ pipeline {
             //agent { label 'agent1' }
             when {
                 expression {
-                    env.BRANCH_NAME == 'master' || '1' == '2'
+                    env.BRANCH_NAME == 'master'
                 }
             }
             steps {
@@ -44,7 +44,7 @@ pipeline {
             //agent { label 'agent1' }
             when {
                 expression {
-                    env.BRANCH_NAME == 'master' || '1' == '2'
+                    env.BRANCH_NAME == 'master' 
                 }
             }
             steps {
@@ -85,7 +85,7 @@ pipeline {
         }
         
         stage('build and push image') {
-            //agent {label 'agent1'}
+            agent {label 'controler'}
             steps {
                 echo 'build and push image......'
                 sh '''
