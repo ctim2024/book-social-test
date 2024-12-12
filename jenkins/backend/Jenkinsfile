@@ -11,8 +11,8 @@ pipeline {
         jdk 'jdk.17'
     }
     stages {
-        stage('compile and test'){
-        parallel {
+        // stage('compile and test'){
+        // parallel {
         stage('compile') {
             when {
                 expression {
@@ -42,7 +42,7 @@ pipeline {
             }
         }
         }
-        }
+        // }
         stage('build') {
             when {
                 expression {
