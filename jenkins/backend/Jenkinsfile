@@ -14,7 +14,6 @@ pipeline {
         stage('compile and test'){
         parallel {
         stage('compile') {
-            //agent { label 'agent1' }
             when {
                 expression {
                     env.BRANCH_NAME == 'main' || '1' == '1'
@@ -32,7 +31,6 @@ pipeline {
         
         }
         stage('unit-tests') {
-            //agent { label 'agent1' }
             when {
                 expression {
                     env.BRANCH_NAME == 'main'
@@ -46,7 +44,6 @@ pipeline {
         }
         }
         stage('build') {
-            //agent { label 'agent1' }
             when {
                 expression {
                     env.BRANCH_NAME == 'main' 
@@ -61,7 +58,7 @@ pipeline {
             }
         }
         stage('get project version') {
-            //agent { label 'agent1' }
+           
             steps {
                 echo 'Building image for the application....'
                 script {
@@ -81,7 +78,7 @@ pipeline {
         }
 
         stage('connect to docker hub') {
-            //agent {label 'agent1'}
+        
             steps {
                 echo 'connect to dockerhub......'
                 sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
@@ -90,20 +87,14 @@ pipeline {
         }
         
         stage('build and push image') {
-            agent {label 'controler'}
+          
             steps {
                 echo 'build and push image......'
-                //this block run on windows
-                bat '''
+               
+                sh '''
                 cd book-network
-                docker build -t %DOCKERHUB_CREDENTIALS_USR%/bsn:%VERSION% -f ../docker/backend/Dockerfile .
-                docker push %DOCKERHUB_CREDENTIALS_USR%/bsn:%VERSION%
+                docker build -t $DOCKERHUB_CREDENTIALS_USR/bsn:${VERSION} -f ../docker/backend/Dockerfile .
                 '''
-                // this bloc run on linux
-                // sh '''
-                // cd book-network
-                // docker build -t $DOCKERHUB_CREDENTIALS_USR/bsn:${VERSION} -f ../docker/backend/Dockerfile .
-                // '''
             }
         }
         stage('deploy') {
