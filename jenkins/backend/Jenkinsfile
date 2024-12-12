@@ -85,10 +85,10 @@ pipeline {
         }
         
         stage('build and push image') {
-           // agent {label 'controler'}
+            agent {label 'controler'}
             steps {
                 echo 'build and push image......'
-                sh '''
+                bat '''
                 cd book-network
                 docker build -t $DOCKERHUB_CREDENTIALS_USR/bsn:${VERSION} -f ../docker/backend/Dockerfile .
                 '''
