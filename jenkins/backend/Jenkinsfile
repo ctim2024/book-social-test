@@ -33,7 +33,7 @@ pipeline {
         stage('unit-tests') {
             when {
                 expression {
-                    env.BRANCH_NAME == 'main' || '1' == '1'
+                    env.BRANCH_NAME == 'main' || '1' == '2'
                 }
             }
             steps {
