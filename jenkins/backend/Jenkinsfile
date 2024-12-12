@@ -41,7 +41,7 @@ pipeline {
                 sh 'mvn clean test'
             }
         }
-        }
+      //  }
         // }
         stage('build') {
             when {
