@@ -88,11 +88,16 @@ pipeline {
             agent {label 'controler'}
             steps {
                 echo 'build and push image......'
+                //this block run on windows
                 bat '''
                 cd book-network
                 docker build -t %DOCKERHUB_CREDENTIALS_USR%/bsn:%VERSION% -f ../docker/backend/Dockerfile .
                 '''
-               
+                // this bloc run on linux
+                // sh '''
+                // cd book-network
+                // docker build -t $DOCKERHUB_CREDENTIALS_USR/bsn:${VERSION} -f ../docker/backend/Dockerfile .
+                // '''
             }
         }
         stage('deploy') {
