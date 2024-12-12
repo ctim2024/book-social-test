@@ -94,6 +94,7 @@ pipeline {
                 sh '''
                 cd book-network
                 docker build -t $DOCKERHUB_CREDENTIALS_USR/bsn:${VERSION} -f ../docker/backend/Dockerfile .
+                docker push $DOCKERHUB_CREDENTIALS_USR/bsn:${VERSION}
                 '''
             }
         }
