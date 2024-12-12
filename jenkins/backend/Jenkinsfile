@@ -85,7 +85,7 @@ pipeline {
         }
         
         stage('build and push image') {
-            agent {label 'controler'}
+           // agent {label 'controler'}
             steps {
                 echo 'build and push image......'
                 sh '''
