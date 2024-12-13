@@ -77,22 +77,13 @@ pipeline {
             }
         }
 
-        stage('connect to docker hub') {
-        
-            steps {
-                echo 'connect to dockerhub......'
-                sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
-               
-            }
-        }
-        
         stage('build and push image') {
           
             steps {
                 echo 'build and push image......'
                script{
                 withDockerRegistry(credentialsId:'boubaker1982-dockerhub'){
-                    
+
                 sh '''
                 cd book-network
                 docker build -t $DOCKERHUB_CREDENTIALS_USR/bsn:${VERSION} -f ../docker/backend/Dockerfile .
