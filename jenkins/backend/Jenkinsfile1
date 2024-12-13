@@ -17,7 +17,7 @@ pipeline {
         stage('compile') {
             when {
                 expression {
-                    env.BRANCH_NAME == 'main' || '1' == '1'
+                    env.BRANCH_NAME == 'main' || '1' == '2'
                 }
             }
             steps {
@@ -47,7 +47,7 @@ pipeline {
         stage('build') {
             when {
                 expression {
-                    env.BRANCH_NAME == 'main' || '1' == '1'
+                    env.BRANCH_NAME == 'main' || '1' == '2'
                 }
             }
             steps {
